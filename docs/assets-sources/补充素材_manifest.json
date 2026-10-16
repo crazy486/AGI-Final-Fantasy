@@ -1,0 +1,696 @@
+[
+  {
+    "file": "src/assets/bg/council.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 225290,
+    "has_transparent_pixels": false,
+    "sha256": "06256cd400e7f2a498fb89f5c746db2a3cb4b49b522a32acf6f2f0a2a15bc437",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/home.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 350836,
+    "has_transparent_pixels": false,
+    "sha256": "82ae470daa7ca565f3d232e02eb272f2eb60db6965829a677f0936bbd8c33dbc",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/city-night.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 365762,
+    "has_transparent_pixels": false,
+    "sha256": "6a3ae06acb1c25ca005c239db8347225caca2dd47eddc97f73f5668a34d8b351",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/hospital.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 225542,
+    "has_transparent_pixels": false,
+    "sha256": "0d9718617d5f2bbbdb8be6907021c9f9657b4aeb18f47f0f977ed63d6aa959c1",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/datacenter.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 320638,
+    "has_transparent_pixels": false,
+    "sha256": "985d5f012f689737d2eacf39c843b2fecbd29441abd406121efd64c04f447601",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/datacenter-alert.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 241462,
+    "has_transparent_pixels": false,
+    "sha256": "0e2c69daa684cfb091da01420b835463291ff9e16a4cf3ff497d258e023a2d45",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/news.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 155828,
+    "has_transparent_pixels": false,
+    "sha256": "0caa6c66cbf6cd9779d17ba8c3bcc0ffdb5e9d859356e614e3e02695f23ede36",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/hospital-2003.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 217350,
+    "has_transparent_pixels": false,
+    "sha256": "3bd7ad0823ba02d3b0897378d0902f1a7c6bc5d82db8003ce611ede71dbe9342",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/bg/title.webp",
+    "category": "背景",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 220598,
+    "has_transparent_pixels": false,
+    "sha256": "46f0d89f48543d897b01a2fecb2e828806e006cdf6fa294cad1f5dbe3e75d858",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/cg-slumped.webp",
+    "category": "剧情 CG",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 240450,
+    "has_transparent_pixels": false,
+    "sha256": "892d1ebc591c3627e2c9f2b9dfc04b86c7b9dc77ad2e6d70c948d420a2ce0de0",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/cg-green-1.webp",
+    "category": "剧情 CG",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 225810,
+    "has_transparent_pixels": false,
+    "sha256": "582c96086f79d9429b27e268bd21fee1b66a77792458482d538e5b540aaa982b",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/cg-green-2.webp",
+    "category": "剧情 CG",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 236416,
+    "has_transparent_pixels": false,
+    "sha256": "81473ac4befd98af38ebf3216729a86972de5818805a4ea1b4895e56b2799b16",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/cg-green-3.webp",
+    "category": "剧情 CG",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 39070,
+    "has_transparent_pixels": false,
+    "sha256": "2fb4fba2bd9e864bbf49cb50b5876e90fd31dfd07c079b5bd1848405cbb3d714",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/cg-2017.webp",
+    "category": "剧情 CG",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 192996,
+    "has_transparent_pixels": false,
+    "sha256": "2978e310ea633cd0d863dbf70699623b5e2c7d8280ae15c72a153f12973c04ab",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/cg-golden-age.webp",
+    "category": "剧情 CG",
+    "width": 1920,
+    "height": 1080,
+    "bytes": 535856,
+    "has_transparent_pixels": false,
+    "sha256": "5919fcdf03e0841ed4bf1f017ff7574ca36e6125fb68c629d1e261507c37cc25",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/wenyuan.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 1422861,
+    "has_transparent_pixels": true,
+    "sha256": "fdeef1987371dcd49a432034b5b3ec3f798ad217df7ff07265702338df5f230f",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/wenyuan-late.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1024,
+    "bytes": 1590743,
+    "has_transparent_pixels": true,
+    "sha256": "d9593ec00839b9bd807590883eca1b174cbcbf25c66add2a9dfe36c8fdff0387",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/ningning.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2421591,
+    "has_transparent_pixels": true,
+    "sha256": "826191e9dca55ebc35cc614f4cc6ee1209685bf87def61c4b26830e72353cfe3",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/haimer-young-focus.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2668318,
+    "has_transparent_pixels": true,
+    "sha256": "d82182010f9d5ce036a177e368c468d238dcf65fb7ce406004802a0c3061a08d",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/haimer-young-surprise.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2687577,
+    "has_transparent_pixels": true,
+    "sha256": "0ac9256151438aec03e26ffd979403ecbc2828c1a91eff1cb4db24a2fafbd58e",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/haimer-young-tired.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2618590,
+    "has_transparent_pixels": true,
+    "sha256": "0b6bb8b0e9226c487e64448947e5e4139a879765c5209618f4e5cefbda330917",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/lin-worried.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2934083,
+    "has_transparent_pixels": true,
+    "sha256": "cc0c25cf60581f4d57aa1914a70420513a433b7c31423e202baa75224830f1c6",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/zhou-serious.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2699235,
+    "has_transparent_pixels": true,
+    "sha256": "ac56fbf70cc80ee075cdfe43c138cb0b9c1a42576676e5963ef9d7f2ab5487b2",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/elder-professor.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2941233,
+    "has_transparent_pixels": true,
+    "sha256": "c06ec789c220e082c51a4910f7b5b1b02390b96b540e38352ff66e59b59dd198",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/portraits/committee.png",
+    "category": "角色与问源",
+    "width": 1024,
+    "height": 1536,
+    "bytes": 2653797,
+    "has_transparent_pixels": true,
+    "sha256": "e1e75465954d96816010b3bb4bc40c7d7124e6e61088d46becb767c5ef6a8a9d",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/arith.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 293614,
+    "has_transparent_pixels": true,
+    "sha256": "e960e13e93f99c7ed71c86269937fb911e6e85baef81b1203013cac3783d2fb0",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/geometry.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 319787,
+    "has_transparent_pixels": true,
+    "sha256": "d9bf97153ffcc5b9aae9c28ce9159051cce683fa84df0d3980a10dc3029f3b6b",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/sortFort.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 344652,
+    "has_transparent_pixels": true,
+    "sha256": "c2625ae6f0c67edfecf3c8310a922e7330596efa4a7a0bf5c6da99db1b671e1a",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/plasma.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 542522,
+    "has_transparent_pixels": true,
+    "sha256": "a531d13b9a015f53c1bbdb7b3522b9a7f0192cd11abf4c4a50a272e98d19f6c1",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/capset.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 314174,
+    "has_transparent_pixels": true,
+    "sha256": "09a8ea3e36738e91f2f9c4de61e9b290073f8852ac524f9f5930147f0b42f83b",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/fluidCore.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 567575,
+    "has_transparent_pixels": true,
+    "sha256": "47a8096611effe92abe10a04677ea4e7adaa0bfb4d9677f22e10e1f48eadb9f0",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/boundary.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 393280,
+    "has_transparent_pixels": true,
+    "sha256": "52955b874145ff405c368b5a12aa3e22af66c61ea610e2918a7ab1a7bde89f18",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/mesh.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 273429,
+    "has_transparent_pixels": true,
+    "sha256": "ce4b602302df0bc2e35df5ffb2ae2a0bb9707a0f1e2cb9143b6bf8b717e8bb02",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/matrix.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 420509,
+    "has_transparent_pixels": true,
+    "sha256": "22292c8437d93867e5decf049e35db331b579ecf498235bb796e522ee6185354",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/protein.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 418086,
+    "has_transparent_pixels": true,
+    "sha256": "cc1cbdcc74cabcd33366ed5f4b5053ef04b945329a64473f5e704f108e675e88",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/bootstrap.png",
+    "category": "研究障碍",
+    "width": 512,
+    "height": 512,
+    "bytes": 533617,
+    "has_transparent_pixels": true,
+    "sha256": "464a3e06c1605673d300452f10c961c69e7cd20549307a97226f0697ba43161f",
+    "method": "built-in image_gen / supplied T05 references"
+  },
+  {
+    "file": "src/assets/art/advance.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 32951,
+    "has_transparent_pixels": false,
+    "sha256": "a3cb5d954a64936e54f921720fb9a9a8ad849fbc486590cafabc35e5bb7627b6",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/verify.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 31292,
+    "has_transparent_pixels": false,
+    "sha256": "67d0cba5baa4bf6f1cad21fef6bde76ac89dea627f766bfb0d18a3205581ab5e",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/retrieve.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 30672,
+    "has_transparent_pixels": false,
+    "sha256": "ba88b1053a8001a9521a614da69f0d930e5e0a0c93cafb03d1adb06ed8d2e2d2",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/breakthrough.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 33228,
+    "has_transparent_pixels": false,
+    "sha256": "7acbd9db6097560ca2325a5cf62bb4f07dd64acb561cd2a09ec6a1f0851df097",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/decompose.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 30782,
+    "has_transparent_pixels": false,
+    "sha256": "5c382d32fa846196662d5e9869e11e7e3ca913b3d5eba08c70c1f2dd59b23c01",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/chain.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 37010,
+    "has_transparent_pixels": false,
+    "sha256": "2797016e52baab13d1b6b2eac8688035ebbc3c268360efc914389c1c2eb7a7ed",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/crossCheck.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 36888,
+    "has_transparent_pixels": false,
+    "sha256": "3ddb652b80b9e0247e7253196048ef9b628d7c68376422ba266697169755cc07",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/counterexample.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 36154,
+    "has_transparent_pixels": false,
+    "sha256": "011aa16ba7bcc76c50733e11130937ae15c9f94c492473014a98d6c2deae7f09",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/codeRun.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 23374,
+    "has_transparent_pixels": false,
+    "sha256": "ad5ab4b0d648636522664000c465ef8bbd451b4a42d88ccb06fc3956a9b7d57e",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/testGate.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 32508,
+    "has_transparent_pixels": false,
+    "sha256": "a7a30d92bf1ad2f39066eda8190ca4a3edcb58f9d8678290fa1bc9663e5af5a8",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/measure.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 36292,
+    "has_transparent_pixels": false,
+    "sha256": "f7138635ee78283a69723f12e1d5de61fd287afac0507a489ede715811ce923c",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/formalProof.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 29315,
+    "has_transparent_pixels": false,
+    "sha256": "32f010037737c50f8e17a127aa9b1feff01451023df7706df2cf0baf6a8e7759",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/reuse.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 34889,
+    "has_transparent_pixels": false,
+    "sha256": "302a789bbc2d2bea3d6c130823dee9a2bf4f686b521ab3a4c404d424a3fe15ee",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/multiAgent.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 35339,
+    "has_transparent_pixels": false,
+    "sha256": "ef6e1039e37b46ef40428cafb049e260906f20b1f7c0631772c449f60aa9ee85",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/selfImprove.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 34315,
+    "has_transparent_pixels": false,
+    "sha256": "476dfe15b02293126a27900b81f5d5a4b4afbea3be6e8977cc91797c1cbf38cf",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/noise.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 55240,
+    "has_transparent_pixels": false,
+    "sha256": "4aa6975a3c5baab2e739b142c43f07e45b8277f61c64b0c765407bc0010f29f0",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/freeze.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 37461,
+    "has_transparent_pixels": false,
+    "sha256": "a7409ce9e0de99b4a112cd98c4b3e3370da484afce654f56069f8f4e5f41d0ee",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/isolate.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 37472,
+    "has_transparent_pixels": false,
+    "sha256": "6c44f00a98facd7155813a97a241adac32caa9c51ec2d1b54d9b1b9617825d10",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/cut.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 35406,
+    "has_transparent_pixels": false,
+    "sha256": "e1f302f18ff77fd196ef4d17fd2144d23350de4d27a71c9f26ac804b7c81e2c4",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/evacuate.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 34122,
+    "has_transparent_pixels": false,
+    "sha256": "df6d78368d08af582ee82837299ea359a398ff6bcc2cf0f342b41547a6050ade",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/shutdown.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 28837,
+    "has_transparent_pixels": false,
+    "sha256": "73eda3113b015f7029c5634a01686615fefd5378f79cf7d0fc1940a695e55c78",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/orbit.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 37825,
+    "has_transparent_pixels": false,
+    "sha256": "9761f121fbfd5630d8abdde637b0d9a9eb183e99044cdb348d7bd984f434de10",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/audit.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 28951,
+    "has_transparent_pixels": false,
+    "sha256": "846782dc9acabfb51abd30fd6aa1c5a9d5e297cafbd0e4e050b5a0aa84ff757b",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/appeal.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 37875,
+    "has_transparent_pixels": false,
+    "sha256": "148fb7cbf1b2ad51f7b5a7669f104731e3ac0ae4de80c60441fbbdb8706f6800",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/art/oldQuestion.png",
+    "category": "卡牌插画",
+    "width": 480,
+    "height": 320,
+    "bytes": 24868,
+    "has_transparent_pixels": false,
+    "sha256": "43be9b44ca06804666bdea6e15144bdf96ce6e18ce015455361da11dccd962e1",
+    "method": "original vector pictogram / Sharp rasterization"
+  },
+  {
+    "file": "src/assets/audio/mechanic.ogg",
+    "category": "音效",
+    "bytes": 6683,
+    "sha256": "3d0bf2551e1546011c7957d63696a6248d9846538fe438ac5fcaf181079be7d1",
+    "method": "original NumPy synthesis / FFmpeg Vorbis",
+    "audio": {
+      "name": "mechanic.ogg",
+      "duration": "0.300000",
+      "sample_rate": "44100",
+      "channels": 2,
+      "true_peak_dbtp": -14.2
+    }
+  },
+  {
+    "file": "src/assets/audio/lose.ogg",
+    "category": "音效",
+    "bytes": 12375,
+    "sha256": "ecc0d39710dee3b261c252fbf4172ccae8fb5bec2eeff3408ec249469a88af12",
+    "method": "original NumPy synthesis / FFmpeg Vorbis",
+    "audio": {
+      "name": "lose.ogg",
+      "duration": "1.000000",
+      "sample_rate": "44100",
+      "channels": 2,
+      "true_peak_dbtp": -14.6
+    }
+  },
+  {
+    "file": "src/assets/audio/cut.ogg",
+    "category": "音效",
+    "bytes": 8829,
+    "sha256": "dda5e2594602945f9670b3fa0210bd67fa6fac0521167cabfaaa4fc811c42b6f",
+    "method": "original NumPy synthesis / FFmpeg Vorbis",
+    "audio": {
+      "name": "cut.ogg",
+      "duration": "0.400000",
+      "sample_rate": "44100",
+      "channels": 2,
+      "true_peak_dbtp": -11.9
+    }
+  },
+  {
+    "file": "src/assets/audio/bypass.ogg",
+    "category": "音效",
+    "bytes": 11670,
+    "sha256": "dc2966d9660467dcea3b37d5cb0d5b3d44faecd3a756dc97601ddd9cef7f7f8c",
+    "method": "original NumPy synthesis / FFmpeg Vorbis",
+    "audio": {
+      "name": "bypass.ogg",
+      "duration": "0.800000",
+      "sample_rate": "44100",
+      "channels": 2,
+      "true_peak_dbtp": -16.5
+    }
+  },
+  {
+    "file": "src/assets/audio/hover.ogg",
+    "category": "音效",
+    "bytes": 4929,
+    "sha256": "f5247186f29b948c67851b8f70b7691feca5305e4badfca78ce675eb8f73215a",
+    "method": "original NumPy synthesis / FFmpeg Vorbis",
+    "audio": {
+      "name": "hover.ogg",
+      "duration": "0.050000",
+      "sample_rate": "44100",
+      "channels": 2,
+      "true_peak_dbtp": -24.1
+    }
+  },
+  {
+    "file": "src/assets/audio/datacenter-loop.ogg",
+    "category": "音效",
+    "bytes": 561345,
+    "sha256": "c140c199d0123e7d90c2ce8b248cd5f116a2c349e4ee13ea084dd37377c1ecfb",
+    "method": "original NumPy synthesis / FFmpeg Vorbis",
+    "audio": {
+      "name": "datacenter-loop.ogg",
+      "duration": "30.000000",
+      "sample_rate": "44100",
+      "channels": 2,
+      "true_peak_dbtp": -24.9
+    }
+  }
+]
