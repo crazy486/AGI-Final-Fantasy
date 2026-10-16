@@ -30,7 +30,9 @@ function ac() {
 function load(name: string): Promise<AudioBuffer | null> {
   if (!buffers.has(name)) {
     const c = ac();
-    buffers.set(name, !c ? Promise.resolve(null) : fetch(`${import.meta.env.BASE_URL}audio/${name}.ogg`)
+    // 单文件分享版会把音频内嵌为 window.__AUDIO__（data URL），否则从 audio/ 目录加载
+    const inline = (window as any).__AUDIO__?.[name] as string | undefined;
+    buffers.set(name, !c ? Promise.resolve(null) : fetch(inline ?? `${import.meta.env.BASE_URL}audio/${name}.ogg`)
       .then((r) => (r.ok ? r.arrayBuffer() : Promise.reject(r.status)))
       .then((b) => c.decodeAudioData(b))
       .catch(() => null));
