@@ -48,7 +48,7 @@ export function portraitFor(speaker: string | undefined, expr: Expr, young: bool
   switch (speaker) {
     case '海默': return pt(`haimer-${young ? 'young-' : ''}${expr}`) ?? pt(young ? 'haimer-young-calm' : 'haimer-calm');
     case '问源': return pt(late ? 'wenyuan-late' : 'wenyuan');
-    case '林澈': return pt(expr === 'tired' || expr === 'surprise' ? 'lin-worried' : 'lin');
+    case '方源': return pt(expr === 'tired' || expr === 'surprise' ? 'lin-worried' : 'lin');
     case '周岚': return pt(expr === 'focus' || expr === 'surprise' ? 'zhou-serious' : 'zhou');
     case '宁宁': return pt('ningning');
     case '老教授': return pt('elder-professor');
