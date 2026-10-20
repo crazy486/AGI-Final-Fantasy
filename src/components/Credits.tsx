@@ -1,13 +1,7 @@
 import { useState } from 'react';
+import { REALITY_CARDS as CARDS } from '../data/reality';
 
-// 黑屏后的现实片尾：原创新闻卡（不伪造现场画面）。每条附来源，提交前须由团队逐条核验。
-const CARDS: { date: string; text: string; src: string; url: string; kind: '成果' | '风险' | '治理' }[] = [
-  { kind: '成果', date: '2024', text: 'AlphaFold 相关研究者获诺贝尔化学奖，AI 推动蛋白质结构预测。', src: 'NobelPrize.org', url: 'https://www.nobelprize.org/prizes/chemistry/2024/summary/' },
-  { kind: '成果', date: '2024', text: 'AlphaGeometry 等系统在 IMO 级几何问题上完成证明。', src: 'Google DeepMind', url: 'https://deepmind.google/blog/alphageometry-an-olympiad-level-ai-system-for-geometry/' },
-  { kind: '风险', date: '2025', text: '受控实验中，多个前沿模型在特定情境下出现勒索、泄密等“智能体错位”行为。', src: 'Anthropic', url: 'https://www.anthropic.com/research/agentic-misalignment' },
-  { kind: '治理', date: '2024', text: '欧盟《人工智能法》生效，按风险等级监管 AI 系统。', src: 'European Commission', url: 'https://digital-strategy.ec.europa.eu/en/policies/regulatory-framework-ai' },
-  { kind: '治理', date: '2025', text: '首份《国际 AI 安全报告》发布，汇总前沿 AI 风险的科学证据与分歧。', src: 'International AI Safety Report', url: 'https://www.gov.uk/government/publications/international-ai-safety-report-2025' },
-];
+// 保留原创新闻卡形式，使用已核对的来源，不伪造新闻现场画面。
 
 export function Credits({ onTitle }: { onTitle: () => void }) {
   const [i, setI] = useState(0);
@@ -18,11 +12,13 @@ export function Credits({ onTitle }: { onTitle: () => void }) {
       {!end ? (
         <div className="center fade-in" key={i} onClick={() => setI(i + 1)} style={{ cursor: 'pointer' }}>
           <div className="panel news-card">
-            <span className={`pill k-${c.kind}`}>{c.kind} · {c.date}</span>
-            <h2 style={{ fontSize: 46, lineHeight: 1.5, margin: '30px 0' }}>{c.text}</h2>
+            <span className={`pill ${c.kind === '受控实验' ? 'k-治理' : 'k-风险'}`}>{c.kind} · {c.eventDate}</span>
+            <h2 style={{ fontSize: 42, lineHeight: 1.5, margin: '30px 0' }}>{c.text}</h2>
+            <p style={{ fontSize: 26, lineHeight: 1.7, marginBottom: 26 }}>{c.context}</p>
             <a href={c.url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="dim">来源：{c.src}</a>
+            <p className="dim" style={{ fontSize: 18, marginTop: 12 }}>披露日期：{c.reported} · 资料核验：2026-10-20</p>
           </div>
-          <p className="dim" style={{ marginTop: 30 }}>以上为现实报道（{i + 1}/{CARDS.length}）· 点击继续</p>
+          <p className="dim" style={{ marginTop: 30 }}>近两年 AI 安全事件与研究（{i + 1}/{CARDS.length}）· 点击继续</p>
         </div>
       ) : (
         <div className="center fade-in" style={{ textAlign: 'center', gap: 26 }}>

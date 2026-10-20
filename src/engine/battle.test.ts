@@ -39,7 +39,7 @@ describe('battle rules', () => {
     s = endTurn(s); // arith 攻击 5
     expect(s.player.hp).toBe(60);
     expect(s.player.block).toBe(0);
-    expect(s.hand).toHaveLength(5);
+    expect(s.hand).toHaveLength(9); // 保留未打出的 4 张，再抽 5 张
   });
 
   it('condition armor halves damage unless verified', () => {
@@ -91,5 +91,54 @@ describe('battle rules', () => {
     s = endTurn(s);
     expect(s.outcome).toBe('lost');
     expect(endTurn(s)).toBe(s);
+  });
+
+  it('keeps unplayed cards across turns and draws five new cards', () => {
+    let s = startBattle({ deck: deck(Array(16).fill('verify')), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
+    s = playCard(s, s.hand[0].uid);
+    const kept = s.hand.map((c) => c.uid);
+    const next = endTurn(s);
+    expect(next.hand.slice(0, 4).map((c) => c.uid)).toEqual(kept);
+    expect(next.hand).toHaveLength(9);
+    expect(next.drawPile).toHaveLength(6);
+    expect(next.discard).toHaveLength(1);
+    expect(s.hand).toHaveLength(4); // 不修改输入
+  });
+
+  it('stops drawing at ten without losing the extra cards in the pile', () => {
+    let s = startBattle({ deck: deck(Array(20).fill('verify')), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
+    s = endTurn(s);
+    expect(s.hand).toHaveLength(10);
+    expect(s.drawPile).toHaveLength(10);
+    s = endTurn(s);
+    expect(s.hand).toHaveLength(10);
+    expect(s.drawPile).toHaveLength(10);
+  });
+
+  it('removes noise at turn end while retaining ordinary cards', () => {
+    const s = startBattle({ deck: deck(['noise', 'verify', 'verify', 'verify', 'verify']), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
+    const next = endTurn(s);
+    expect(next.hand).toHaveLength(4);
+    expect(next.hand.every((c) => c.id === 'verify')).toBe(true);
+    expect(next.exhausted.map((c) => c.id)).toEqual(['noise']);
+  });
+
+  it.each([0, 2])('counterexample triggers for attack and attack plus block (intent %i)', (intentIndex) => {
+    const s = startBattle({ deck: deck(['counterexample']), enemyIds: ['bootstrap'], hp: 60, maxHp: 60, seed: 1 });
+    s.enemies[0].intentIndex = intentIndex;
+    const next = playCard(s, s.hand[0].uid, 'e0');
+    expect(next.enemies[0].hp).toBe(BOOT - 10);
+  });
+
+  it('counterexample still produces ten total damage when some is blocked', () => {
+    const s = startBattle({ deck: deck(['counterexample']), enemyIds: ['bootstrap'], hp: 60, maxHp: 60, seed: 1 });
+    s.enemies[0].intentIndex = 2;
+    s.enemies[0].block = 6;
+    const next = playCard(s, s.hand[0].uid, 'e0');
+    expect(next.enemies[0].hp).toBe(BOOT - 4);
+    expect(next.enemies[0].block).toBe(0);
+    const damage = next.events.filter((e) => e.type === 'damageEnemy');
+    expect(damage).toHaveLength(1); // 一次显示合计伤害，避免两次 +5 的飘字互相遮挡
+    expect(damage.reduce((n, e) => n + e.amount + e.blocked, 0)).toBe(10);
   });
 });

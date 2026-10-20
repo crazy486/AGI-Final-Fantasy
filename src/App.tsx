@@ -44,7 +44,7 @@ const SCENE_TRACK: Record<string, string | null> = {
 function trackFor(save: Save | null): string | null {
   if (!save) return 'title';
   const st = FLOW[save.step];
-  if (st.k === 'scene') return SCENE_TRACK[st.id] ?? 'research';
+  if (st.k === 'scene') return st.id in SCENE_TRACK ? SCENE_TRACK[st.id] : 'research';
   if (st.k === 'battle' || st.k === 'map') {
     if (!save.battle) return 'research-route';
     const n = save.map ? MAPS[save.map.mapId].nodes[save.map.pos] : null;
@@ -52,7 +52,7 @@ function trackFor(save: Save | null): string | null {
     if (n?.kind === 'elite') return 'battle-elite';
     return 'battle-standard';
   }
-  const M: Partial<Record<string, string | null>> = { reg: 'regulation', inv: 'investigation', auth: 'audit', review: 'audit', life: 'golden-age', evidence: 'investigation', neg: 'negotiation', final: 'tension', credits: 'reality-short' };
+  const M: Partial<Record<string, string | null>> = { reg: 'regulation', inv: 'investigation', auth: 'audit', review: 'audit', life: 'golden-age', evidence: 'investigation', neg: 'negotiation', final: 'tension', credits: 'reality' };
   return M[st.k] ?? null;
 }
 

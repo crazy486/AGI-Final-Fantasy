@@ -50,7 +50,7 @@ export const CARDS: Record<string, CardDef> = {
   counterexample: {
     id: 'counterexample', name: '反例构造', cost: 1, type: '推进', target: true,
     effects: [{ kind: 'damage', amount: 5, upAmount: 7 }, { kind: 'counter', amount: 5, upAmount: 7 }],
-    desc: (u) => `推进 ${v(u, 5, 7)}。若目标正准备攻击，额外 +${v(u, 5, 7)}。`,
+    desc: (u) => `推进 ${v(u, 5, 7)}。目标意图含攻击时再推进 ${v(u, 5, 7)}（包括攻击＋护盾）。`,
     flavor: '一个反例就能推翻一个错误猜想。',
   },
   codeRun: {
@@ -98,7 +98,7 @@ export const CARDS: Record<string, CardDef> = {
   noise: {
     id: 'noise', name: '噪声数据', cost: 0, type: '状态', target: false, unplayable: true, exhaust: true,
     effects: [],
-    desc: () => `无法打出。占用手牌。`,
+    desc: () => `无法打出。占用手牌，回合结束时移出。`,
     flavor: '数据里的噪声会干扰判断。',
   },
 };

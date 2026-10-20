@@ -1,29 +1,25 @@
 import { useState } from 'react';
 import { sfx } from '../audio';
 import { REG_CASES, type Verdict } from '../data/regulation';
+import { resolveRegulation, type RegDecision } from '../engine/regulation';
 import { Backdrop } from './Backdrop';
 
 // 第三幕：三轮监管审批。对照材料 → 选择批准 / 附条件批准 / 暂缓 → 下一轮看到后果
-export function Regulation({ onDone }: { onDone: (results: Verdict[]) => void }) {
+export function Regulation({ onDone }: { onDone: (results: RegDecision[]) => void }) {
   const [idx, setIdx] = useState(0);
   const [opened, setOpened] = useState<number[]>([]);
   const [conds, setConds] = useState<string[]>([]);
-  const [result, setResult] = useState<{ v: Verdict; text: string; extra: string } | null>(null);
-  const [results, setResults] = useState<Verdict[]>([]);
+  const [result, setResult] = useState<RegDecision | null>(null);
+  const [results, setResults] = useState<RegDecision[]>([]);
   const c = REG_CASES[idx];
   const allRead = opened.length >= c.docs.length;
 
   const decide = (v: Verdict) => {
     sfx('click');
-    let extra = '';
-    if (v === 'conditional') {
-      const hit = c.bestConditions.filter((x) => conds.includes(x)).length;
-      extra = hit === c.bestConditions.length ? '你选的条件正好对准了测试与情报暴露的风险。' : hit > 0 ? '部分条件对准了风险，仍有遗漏。' : '条件没有对准真正的风险，效果有限。';
-    }
-    setResult({ v, text: c.outcomes[v], extra });
+    setResult(resolveRegulation(c, v, conds));
   };
   const nextCase = () => {
-    const r = [...results, result!.v];
+    const r = [...results, result!];
     setResults(r);
     if (idx + 1 >= REG_CASES.length) { onDone(r); return; }
     setIdx(idx + 1); setOpened([]); setConds([]); setResult(null);
@@ -37,7 +33,7 @@ export function Regulation({ onDone }: { onDone: (results: Verdict[]) => void })
           <h2>安全署审查台 · {c.title}</h2>
           <span className="pill">第 {idx + 1} / {REG_CASES.length} 轮 · 申请方：{c.applicant}</span>
         </div>
-        {idx > 0 && <div className="panel pressure">上一轮反馈：{REG_CASES[idx - 1].pressure}</div>}
+        {idx > 0 && <div className="panel pressure">上一轮反馈：{results[idx - 1].feedback}</div>}
         <div className="docs">
           {c.docs.map((d, k) => (
             <button key={k} className={`panel doc ${opened.includes(k) ? 'open' : ''}`} onClick={() => !opened.includes(k) && setOpened([...opened, k])}>
@@ -68,8 +64,8 @@ export function Regulation({ onDone }: { onDone: (results: Verdict[]) => void })
         ) : (
           <div className="panel decide fade-in">
             <h3>审查结果</h3>
-            <p>{result.text}</p>
-            {result.extra && <p className="green-text">{result.extra}</p>}
+            <p>{result.outcome}</p>
+            {result.assessment && <p className={result.coveredRisks === c.bestConditions.length ? 'green-text' : 'flag'}>{result.assessment}</p>}
             <button className="btn primary" onClick={nextCase}>{idx + 1 >= REG_CASES.length ? '结束审查' : '下一份申请'}</button>
           </div>
         )}

@@ -12,6 +12,8 @@ export interface Line {
   tip?: string; // 科普小贴士 id
   fx?: 'chapter' | 'terminal' | 'shake' | 'green' | 'flash';
   sub?: string; // chapter 副标题
+  note?: string; // 紧跟本句显示，不额外推进一次对话
+  pov?: string; // 当前玩家视角，切换时明确标识
 }
 
 export interface Choice {
@@ -21,6 +23,7 @@ export interface Choice {
 
 export interface Scene {
   id: string;
+  pov?: string;
   lines: (Line | { choice: Choice[] })[];
 }
 

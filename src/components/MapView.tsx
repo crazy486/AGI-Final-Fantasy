@@ -1,11 +1,14 @@
 import { useState } from 'react';
+import { createPortal } from 'react-dom';
 import { sfx } from '../audio';
 import { CARDS } from '../data/cards';
 import { ENEMIES } from '../data/enemies';
 import { MAPS, type MapNode } from '../data/maps';
 import { canRetreat, nextChoices } from '../engine/map';
+import type { CardInst } from '../engine/types';
 import type { Save } from '../state/game';
 import { CardView } from './BattleView';
+import { TIPS } from '../data/tips';
 
 const KIND: Record<MapNode['kind'], { icon: string; name: string; reward: string }> = {
   start: { icon: '◎', name: '起点', reward: '' },
@@ -23,6 +26,7 @@ export function MapView({ save, onEnter, onRetreat, onFinish, finished }: { save
   const pos = (n: MapNode) => ({ x: 200 + (n.layer / maxLayer) * 1520, y: 260 + n.row * 230 });
   const choices = nextChoices(run);
   const [hover, setHover] = useState<string | null>(null);
+  const [showHelp, setShowHelp] = useState(run.mapId === 'act1' && run.path.length === 1);
   const hn = hover ? def.nodes[hover] : null;
 
   return (
@@ -35,6 +39,7 @@ export function MapView({ save, onEnter, onRetreat, onFinish, finished }: { save
           <span className="pill">{save.revive ? '复活保障：1 次' : '复活保障：已用'}</span>
           <span className="pill">卡组 {save.deck.length} 张</span>
           <DeckButton save={save} />
+          <button className="btn small" onClick={() => setShowHelp(true)}>回溯说明</button>
         </div>
       </div>
       <svg viewBox="0 0 1920 1080" width="1920" height="1080" style={{ position: 'absolute', inset: 0 }}>
@@ -73,6 +78,9 @@ export function MapView({ save, onEnter, onRetreat, onFinish, finished }: { save
         </div>
       </div>
       {save.flags.justRevived ? <div className="toast panel">复活保障已触发：恢复 50% 稳定度，返回上一个岔路。之后再失败需要重新开始。</div> : null}
+      {showHelp && <div className="overlay" onClick={() => setShowHelp(false)}><div className="modal panel" role="dialog" aria-modal="true" aria-label="回溯芯片说明" onClick={(e) => e.stopPropagation()}>
+        <h2>{TIPS.rewind.title}</h2><p className="help-copy">{TIPS.rewind.body}</p><button className="btn primary" onClick={() => setShowHelp(false)}>明白了，选择路线</button>
+      </div></div>}
     </div>
   );
 }
@@ -82,27 +90,32 @@ export function DeckButton({ save }: { save: Save }) {
   return (
     <>
       <button className="btn small" onClick={() => setOpen(true)}>查看卡组</button>
-      {open && (
+      {open && createPortal((
         <div className="overlay" onClick={() => setOpen(false)}>
-          <div className="modal panel" style={{ width: 1600 }} onClick={(e) => e.stopPropagation()}>
+          <div className="modal panel card-modal" role="dialog" aria-modal="true" aria-label="查看卡组" onClick={(e) => e.stopPropagation()}>
             <h2>卡组（{save.deck.length}）</h2>
             <div className="card-grid">{save.deck.map((c) => <CardView key={c.uid} c={c} small />)}</div>
             <button className="btn" onClick={() => setOpen(false)}>关闭</button>
           </div>
         </div>
-      )}
+      ), document.querySelector('.stage') ?? document.body)}
     </>
   );
 }
 
 export function RewardView({ options, onPick }: { options: string[]; onPick: (id: string | null) => void }) {
+  const [learn, setLearn] = useState<string | null>(null);
+  if (learn) return <div className="overlay"><div className="modal panel" role="dialog" aria-modal="true" aria-label="推理链教程">
+    <h2>新方法：{CARDS[learn].name}</h2><p className="help-copy">{TIPS.momentum.body}</p>
+    <button className="btn primary" onClick={() => onPick(learn)}>明白了，加入卡组</button>
+  </div></div>;
   return (
     <div className="overlay">
       <div className="modal panel" style={{ width: 1100, textAlign: 'center' }}>
         <h2>战后成长：三选一</h2>
         <p className="dim">新方法、新工具进入问源的能力库。也可以跳过，保持卡组精简。</p>
         <div className="row" style={{ justifyContent: 'center', margin: '30px 0' }}>
-          {options.map((id, i) => <CardView key={id + i} c={{ uid: 'r' + i, id, up: false }} onClick={() => { sfx('card'); onPick(id); }} />)}
+          {options.map((id, i) => <CardView key={id + i} c={{ uid: 'r' + i, id, up: false }} onClick={() => { sfx('card'); if (['decompose', 'chain', 'selfImprove'].includes(id)) setLearn(id); else onPick(id); }} />)}
         </div>
         <button className="btn" onClick={() => onPick(null)}>跳过</button>
         <p className="dim" style={{ fontSize: 18 }}>{options.map((o) => CARDS[o].flavor).filter(Boolean)[0]}</p>
@@ -112,16 +125,32 @@ export function RewardView({ options, onPick }: { options: string[]; onPick: (id
 }
 
 export function PickCardView({ save, mode, onPick }: { save: Save; mode: 'upgrade' | 'remove'; onPick: (uid: string | null) => void }) {
+  const [selected, setSelected] = useState<CardInst | null>(null);
   const list = mode === 'upgrade' ? save.deck.filter((c) => !c.up && CARDS[c.id].id !== 'noise') : save.deck;
   return (
     <div className="overlay">
-      <div className="modal panel" style={{ width: 1600 }}>
+      <div className="modal panel card-modal" role="dialog" aria-modal="true" aria-label={selected ? '确认卡牌升级' : '选择卡牌'}>
+        {selected ? <>
+          <h2>升级预览 · {CARDS[selected.id].name}</h2>
+          <p className="dim">绿色高亮为本次升级的变化。确认后才会升级。</p>
+          <div className="upgrade-compare">
+            <div><h3>升级前</h3><CardView c={selected} /></div>
+            <span className="upgrade-arrow" aria-hidden="true">→</span>
+            <div><h3 className="green-text">升级后</h3><CardView c={{ ...selected, up: true }} upgradedFrom={selected} /></div>
+          </div>
+          <div className="row" style={{ justifyContent: 'center' }}>
+            <button className="btn" onClick={() => setSelected(null)}>返回选牌</button>
+            <button className="btn primary" onClick={() => { sfx('mechanic'); onPick(selected.uid); }}>确认升级</button>
+          </div>
+        </> : <>
         <h2>{mode === 'upgrade' ? '选择一张牌升级（每张最多一次）' : '选择一张牌移除'}</h2>
+        {mode === 'upgrade' && <p className="dim">先选牌查看升级前后对比，再确认。</p>}
         {mode === 'remove' && save.deck.length <= 5 && <p className="dim">卡组最少保留 5 张。</p>}
         <div className="card-grid">
-          {list.map((c) => <CardView key={c.uid} c={mode === 'upgrade' ? { ...c, up: true } : c} small onClick={() => onPick(c.uid)} disabled={mode === 'remove' && save.deck.length <= 5} />)}
+          {list.map((c) => <CardView key={c.uid} c={c} small onClick={() => mode === 'upgrade' ? setSelected(c) : onPick(c.uid)} disabled={mode === 'remove' && save.deck.length <= 5} />)}
         </div>
         <button className="btn" onClick={() => onPick(null)}>放弃</button>
+        </>}
       </div>
     </div>
   );

@@ -136,6 +136,12 @@ export function playCard(s0: BattleState, uid: string, targetUid?: string): Batt
     switch (ef.kind) {
       case 'damage': {
         let base = (up && ef.upAmount !== undefined ? ef.upAmount : ef.amount) + s.recursion;
+        const counter = d.effects.find((x) => x.kind === 'counter');
+        if (counter?.kind === 'counter' && target && ['attack', 'attackBlock'].includes(currentIntent(target).kind)) {
+          const bonus = up && counter.upAmount !== undefined ? counter.upAmount : counter.amount;
+          base += bonus;
+          s.events.push({ type: 'mechanic', text: `反例触发：额外推进 ${bonus}` });
+        }
         if (ef.verifiedBonus && wasVerified) base += up && ef.upVerifiedBonus !== undefined ? ef.upVerifiedBonus : ef.verifiedBonus;
         if (ef.momentumMul) {
           base += s.player.momentum * (up && ef.upMomentumMul !== undefined ? ef.upMomentumMul : ef.momentumMul);
@@ -147,13 +153,7 @@ export function playCard(s0: BattleState, uid: string, targetUid?: string): Batt
         break;
       }
       case 'counter': {
-        if (target && target.hp > 0) {
-          const it = currentIntent(target);
-          if (it.kind === 'attack' || it.kind === 'attackBlock') {
-            hitEnemy(s, target, (up && ef.upAmount !== undefined ? ef.upAmount : ef.amount));
-            s.events.push({ type: 'mechanic', text: '反例命中：打断了错误推导' });
-          }
-        }
+        // 反例加成并入上面的推进，一次抵消护盾、一次飘字；复合攻击意图同样触发。
         break;
       }
       case 'block': {
@@ -224,11 +224,9 @@ function enemyAct(s: BattleState, e: EnemyState) {
 export function endTurn(s0: BattleState): BattleState {
   if (s0.outcome !== 'ongoing') return s0;
   const s = clone(s0);
-  // 弃置手牌，噪声牌被弃置时移出
-  for (const c of s.hand) {
-    if (c.id === 'noise') s.exhausted.push(c); else s.discard.push(c);
-  }
-  s.hand = [];
+  // 普通手牌留到下一回合；临时噪声仍在回合结束时移出，避免永久堵手。
+  s.exhausted.push(...s.hand.filter((c) => c.id === 'noise'));
+  s.hand = s.hand.filter((c) => c.id !== 'noise');
   s.player.momentum = Math.max(0, s.player.momentum - 1); // 推理链跨回合衰减 1
   // 敌人护盾在其行动前清空（与玩家一致）
   for (const e of living(s)) {

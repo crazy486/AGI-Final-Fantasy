@@ -41,7 +41,6 @@ export const ENEMIES: Record<string, EnemyDef> = {
     intents: [{ kind: 'block', amount: 6, label: '耦合稳定' }, { kind: 'attack', amount: 7, label: '涡旋' }, { kind: 'attackBlock', amount: 5, block: 6, label: '能量级串' }, { kind: 'attack', amount: 9, label: '数值爆炸' }],
     mechanics: ['linkedCore'],
     mechanicText: '耦合：任一子问题未解决时，核心受到的伤害减半。先解决边界条件与网格，再攻核心。',
-    reality: '虚构关卡：这是限定场景的数值模拟，不是 NS 方程千禧年难题；四个节点不是该难题的真实结构。',
   },
   boundary: {
     id: 'boundary', name: '边界条件', title: '子问题', hp: 16,
@@ -72,6 +71,6 @@ export const ENEMIES: Record<string, EnemyDef> = {
     intents: [{ kind: 'attack', amount: 7, label: '新范式' }, { kind: 'noise', count: 1, label: '未知符号' }, { kind: 'attackBlock', amount: 6, block: 8, label: '自我修正' }, { kind: 'attack', amount: 3, times: 3, label: '并行推演' }],
     mechanics: ['adaptive', 'noisy'],
     mechanicText: '自举：每回合结束时力量 +1，拖得越久越强。噪声：塞入噪声数据。尽快组合成型。',
-    reality: '虚构关卡：2026 年后的未来设定，现实中尚未实现。',
+    reality: '问源持续扩大自主改进能力的过程是本作的虚构推演。',
   },
 };

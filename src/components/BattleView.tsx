@@ -3,8 +3,9 @@ import { sfx } from '../audio';
 import { CARDS } from '../data/cards';
 import { ENEMIES } from '../data/enemies';
 import { art } from '../assets';
-import { canPlay, cardCost, currentIntent } from '../engine/battle';
+import { canPlay, cardCost, currentIntent, playCard } from '../engine/battle';
 import type { BattleState, CardInst, Intent } from '../engine/types';
+import { TIPS } from '../data/tips';
 
 function intentText(it: Intent, str: number) {
   switch (it.kind) {
@@ -16,16 +17,23 @@ function intentText(it: Intent, str: number) {
   }
 }
 
-export function CardView({ c, onClick, selected, disabled, small }: { c: CardInst; onClick?: () => void; selected?: boolean; disabled?: boolean; small?: boolean }) {
+export function CardView({ c, onClick, selected, disabled, small, upgradedFrom, battle }: { c: CardInst; onClick?: () => void; selected?: boolean; disabled?: boolean; small?: boolean; upgradedFrom?: CardInst; battle?: BattleState }) {
   const d = CARDS[c.id];
+  const before = upgradedFrom ? d.desc(upgradedFrom.up).split(/(\d+)/) : null;
+  const description = d.desc(c.up).split(/(\d+)/).map((part, i) => before && part !== before[i] ? <mark key={i} className="upgrade-change">{part}</mark> : part);
+  const costChanged = upgradedFrom && cardCost(c) !== cardCost(upgradedFrom);
+  const target = battle?.enemies.filter((e) => e.hp > 0);
+  const counterReady = c.id === 'counterexample' && target?.length === 1 && ['attack', 'attackBlock'].includes(currentIntent(target[0]).kind);
+  const forecast = counterReady && battle && canPlay(battle, c.uid)
+    ? playCard(battle, c.uid, target![0].uid).events.find((e) => e.type === 'damageEnemy') : undefined;
   return (
     <button className={`card t-${d.type} ${selected ? 'sel' : ''} ${small ? 'small' : ''}`} onClick={onClick} disabled={disabled} title={d.flavor}
       aria-label={`${d.name}${c.up ? '+' : ''}，费用${cardCost(c)}，${d.desc(c.up)}`}>
-      <span className="cost">{cardCost(c)}</span>
+      <span className={`cost ${costChanged ? 'upgrade-change' : ''}`}>{cardCost(c)}</span>
       <span className="cname">{d.name}{c.up ? '+' : ''}</span>
       <span className="ctype">{d.type}</span>
       {art(c.id) && <img className="cart" src={art(c.id)!} alt="" draggable={false} />}
-      <span className="cdesc">{d.desc(c.up)}</span>
+      <span className="cdesc">{description}{forecast?.type === 'damageEnemy' && <strong className="counter-ready">本次推进 {forecast.amount + forecast.blocked}{forecast.blocked ? ` · 护盾抵消 ${forecast.blocked}` : ''}</strong>}</span>
       {!small && d.flavor && <span className="cflavor">{d.flavor}</span>}
     </button>
   );
@@ -36,6 +44,7 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
   onRetreat?: () => void; canRetreat: boolean; chips: number; tutorial?: boolean;
 }) {
   const [sel, setSel] = useState<string | null>(null);
+  const [help, setHelp] = useState<string | null>(null);
   const [floats, setFloats] = useState<{ id: number; text: string; cls: string; uid?: string }[]>([]);
   const [hitUid, setHitUid] = useState<string | null>(null);
   const seq = useRef(0);
@@ -45,7 +54,7 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
   useEffect(() => {
     const add: typeof floats = [];
     for (const ev of b.events) {
-      if (ev.type === 'damageEnemy') { add.push({ id: seq.current++, text: ev.amount ? `-${ev.amount}` : '格挡', cls: 'f-dmg', uid: ev.uid }); setHitUid(ev.uid); sfx('hit'); }
+      if (ev.type === 'damageEnemy') { add.push({ id: seq.current++, text: ev.blocked ? `推进 ${ev.amount + ev.blocked} · 护盾抵消 ${ev.blocked}` : `-${ev.amount}`, cls: ev.blocked ? 'f-mech' : 'f-dmg', uid: ev.uid }); setHitUid(ev.uid); sfx('hit'); }
       if (ev.type === 'damagePlayer') { add.push({ id: seq.current++, text: ev.amount ? `稳定度 -${ev.amount}` : '完全抵消', cls: 'f-bad' }); sfx(ev.amount ? 'hit' : 'block'); }
       if (ev.type === 'block' && ev.who === 'player') sfx('block');
       if (ev.type === 'mechanic') { add.push({ id: seq.current++, text: ev.text, cls: 'f-mech' }); sfx('mechanic'); }
@@ -67,10 +76,10 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
   useEffect(() => {
     const h = (e: MouseEvent) => { e.preventDefault(); setSel(null); };
     window.addEventListener('contextmenu', h);
-    const k = (e: KeyboardEvent) => { if (e.key === 'Escape') setSel(null); if (e.key.toLowerCase() === 'e' && b.outcome === 'ongoing') onEnd(); };
+    const k = (e: KeyboardEvent) => { if (e.key === 'Escape') { setSel(null); setHelp(null); } if (!help && e.key.toLowerCase() === 'e' && b.outcome === 'ongoing') onEnd(); };
     window.addEventListener('keydown', k);
     return () => { window.removeEventListener('contextmenu', h); window.removeEventListener('keydown', k); };
-  }, [b.outcome, onEnd]);
+  }, [b.outcome, onEnd, help]);
 
   const clickCard = (c: CardInst) => {
     if (!canPlay(b, c.uid)) return;
@@ -90,10 +99,10 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
       <div className="b-top">
         <div className="row">
           <span className="pill">回合 {b.turn}</span>
-          {b.recursion > 0 && <span className="pill green-text">递归 Lv.{b.recursion}：推进 +{b.recursion}</span>}
+          {b.recursion > 0 && <span className="pill green-text">自我改进：推进 +{b.recursion}</span>}
           <span className="pill">回溯芯片 ×{chips}</span>
         </div>
-        {onRetreat && <button className="btn small warn" disabled={!canRetreat || b.outcome !== 'ongoing'} onClick={onRetreat}>使用芯片撤退</button>}
+        <div className="row"><button className="btn small" onClick={() => setHelp('battle')}>玩法说明</button>{onRetreat && <button className="btn small warn" disabled={!canRetreat || b.outcome !== 'ongoing'} onClick={onRetreat}>使用芯片撤退</button>}</div>
       </div>
 
       <div className="enemies">
@@ -125,7 +134,7 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
       {tutorial && b.turn <= 2 && b.outcome === 'ongoing' && (
         <div className="tutorial panel">
           每回合有 <b>3 点算力</b>，抽 5 张牌。点击卡牌打出；多个敌人时先点牌、再点目标，右键取消。<br />
-          敌人头上显示<b>下一步行动</b>。《基础验证》提供稳定（护盾），抵消伤害。用完后点“结束回合”（快捷键 E）。
+          <b>没出的牌留到下回合</b>，手里最多 10 张。敌人头上是下一步行动。《基础验证》提供护盾抵消伤害。结束回合快捷键 E。
         </div>
       )}
 
@@ -135,7 +144,7 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
           <div className="bar big"><div className="fill good" style={{ width: `${(p.hp / p.maxHp) * 100}%` }} /><span>研究稳定度 {p.hp}/{p.maxHp}</span></div>
           <div className="row" style={{ marginTop: 8, fontSize: 22 }}>
             <span className="pill">🛡 稳定 {p.block}</span>
-            <span className="pill">推理链 {p.momentum}</span>
+            <button className="pill mechanic-help" onClick={() => setHelp('momentum')}>推理链 {p.momentum} ⓘ</button>
             <span className={`pill ${p.verified ? 'green-text' : 'dim'}`}>{p.verified ? '✓ 已验证' : '未验证'}</span>
             <span className="pill dim">抽牌堆 {b.drawPile.length} · 弃牌堆 {b.discard.length}</span>
           </div>
@@ -143,9 +152,13 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
         <button className="btn primary" disabled={b.outcome !== 'ongoing'} onClick={() => { setSel(null); onEnd(); }}>结束回合</button>
       </div>
 
-      <div className="hand">
-        {b.hand.map((c) => <CardView key={c.uid} c={c} selected={sel === c.uid} disabled={!canPlay(b, c.uid)} onClick={() => clickCard(c)} />)}
+      <div className={`hand ${b.hand.length > 7 ? 'crowded' : ''}`}>
+        {b.hand.map((c) => <CardView key={c.uid} c={c} battle={b} selected={sel === c.uid} disabled={!canPlay(b, c.uid)} onClick={() => clickCard(c)} />)}
       </div>
+
+      {help && <div className="overlay" onClick={() => setHelp(null)}><div className="modal panel" role="dialog" aria-modal="true" aria-label="玩法说明" onClick={(e) => e.stopPropagation()}>
+        <h2>{TIPS[help].title}</h2><p className="help-copy">{TIPS[help].body}</p><button className="btn primary" onClick={() => setHelp(null)}>知道了</button>
+      </div></div>}
 
       {b.outcome !== 'ongoing' && (
         <div className="overlay">

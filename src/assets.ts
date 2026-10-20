@@ -34,10 +34,10 @@ export const BG_IMAGE: Record<BgId, string | null> = {
   title: bg('title'),
   cg_2017: art('cg-2017'),
   cg_golden: art('cg-golden-age'),
-  cg_slumped: art('cg-slumped'),
-  cg_green1: art('cg-green-1'),
-  cg_green2: art('cg-green-2'),
-  cg_green3: art('cg-green-3'),
+  cg_slumped: art('cg-slumped-v2'),
+  cg_green1: art('cg-green-1-v2'),
+  cg_green2: art('cg-green-2-v2'),
+  cg_green3: art('cg-green-3-v2'),
 };
 
 /** CG 场景已画好人物，不再叠立绘 */

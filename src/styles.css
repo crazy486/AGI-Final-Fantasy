@@ -185,3 +185,34 @@ h1, h2, h3 { margin: 0; font-weight: 600; }
 .life-title { color: #fff; text-shadow: 0 2px 8px rgba(0,0,0,.6); }
 .life-hint { color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,.7); }
 .neg-ai { left: 72%; bottom: 360px; height: 520px; }
+
+/* 卡组弹窗挂在完整舞台上；列表独立滚动，标题与关闭按钮始终可见。 */
+.card-modal { width: 1600px; max-height: 920px; display: flex; flex-direction: column; overflow: hidden; }
+.card-modal .card-grid { min-height: 0; overflow-y: auto; flex: 1; flex-shrink: 1; padding: 24px 18px; margin: 4px 0 20px; align-content: flex-start; }
+.card-grid .card { flex-shrink: 0; }
+.card.small { width: 200px; height: 300px; }
+.card { height: 330px; }
+.card .cart { height: 70px; flex-shrink: 0; }
+.card .cdesc { font-size: 18px; line-height: 1.4; }
+.card.small .cdesc { font-size: 18px; }
+.card.small .cname { font-size: 23px; }
+.card .cflavor { font-size: 13px; }
+.hand { left: 24px; right: 24px; }
+.hand.crowded { gap: 10px; }
+.hand.crowded .card { width: 175px; min-width: 0; }
+.hand.crowded .cname { font-size: 22px; }
+.hand.crowded .cflavor { display: none; }
+.player-bar { bottom: 370px; }
+.tutorial { top: 455px; }
+.mechanic-help { color: var(--accent); cursor: pointer; font-family: inherit; }
+.help-copy { white-space: pre-line; line-height: 1.7; margin: 18px 0 26px; }
+.upgrade-compare { display: flex; align-items: center; justify-content: center; gap: 70px; padding: 26px 0 40px; }
+.upgrade-compare h3 { text-align: center; margin-bottom: 20px; }
+.upgrade-arrow { font-size: 54px; color: var(--dim); }
+.upgrade-change { color: #a8ffd0 !important; background: #123e2d !important; border-radius: 4px; padding: 0 3px; font-weight: 800; outline: 1px solid #67db9c; }
+.counter-ready { display: block; color: var(--green); font-size: 16px; margin-top: 7px; }
+.auto-cell small { float: right; font-size: 16px; }
+.story-note { font-size: 22px; color: var(--dim); line-height: 1.5; margin-top: 14px; }
+.dialog { padding-bottom: 48px; }
+.pov-label { position: absolute; left: 24px; top: 22px; z-index: 10; font-size: 20px; }
+.pov-label ~ .tip-chip { top: 76px; }

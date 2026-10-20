@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { sfx } from '../audio';
 import { REVIEWS } from '../data/review';
 import { Backdrop } from './Backdrop';
+import { researchProgress } from '../engine/research';
 
 // 第四幕首次授权演出：玩家准备操作 → AI 提议更高效路线 → 征得同意 → 自动任务加速、并行 → 审查界面
 export function AuthSequence({ onDone }: { onDone: (agreedFirst: boolean) => void }) {
@@ -9,7 +10,6 @@ export function AuthSequence({ onDone }: { onDone: (agreedFirst: boolean) => voi
   const [t, setT] = useState(0);
   const [manual, setManual] = useState(0);
   const [refused, setRefused] = useState(false);
-  const tasks = ['蛋白质折叠 #2,104', '材料筛选 #88', '电池电解质', '抗体设计', '催化剂', '芯片布线', '气候模型', '药物重定位', '湍流 v2', '核聚变约束', '基因编辑脱靶', '超导候选'];
 
   useEffect(() => {
     if (stage !== 'run') return;
@@ -18,8 +18,7 @@ export function AuthSequence({ onDone }: { onDone: (agreedFirst: boolean) => voi
     return () => clearTimeout(id);
   }, [stage, t]);
 
-  const year = 2028 + Math.floor((t / 240) * 10);
-  const done = Math.floor(Math.pow(t / 240, 2) * 48210);
+  const progress = researchProgress(stage === 'end' ? 240 : t);
   return (
     <div className="battle">
       <Backdrop bg="lab_day" />
@@ -50,12 +49,11 @@ export function AuthSequence({ onDone }: { onDone: (agreedFirst: boolean) => voi
         )}
         {(stage === 'run' || stage === 'end') && (
           <div className="panel decide">
-            <div className="row" style={{ justifyContent: 'space-between' }}><h3>{stage === 'end' ? 2038 : year} 年</h3><span className="pill green-text">已完成任务 {stage === 'end' ? '48,210' : done.toLocaleString()}</span></div>
+            <div className="row" style={{ justifyContent: 'space-between' }}><h3>授权后第 {1 + Math.floor((stage === 'end' ? 240 : t) / 240 * 20)} 天</h3><span className="pill green-text">已完成任务 {progress.done.toLocaleString()}</span></div>
             <div className="auto-grid">
-              {tasks.map((k, i) => {
-                const p = Math.min(100, Math.max(0, (stage === 'end' ? 999 : t) * (1 + i * 0.4) - i * 12));
-                return <div key={k} className="auto-cell"><span>{k}</span><div className="bar"><div className="fill good" style={{ width: `${p}%` }} /></div></div>;
-              })}
+              {progress.tasks.map((task) => (
+                <div key={task.name} className="auto-cell"><span>{task.name} <small>{task.completed.toLocaleString()} / {task.target.toLocaleString()}</small></span><div className="bar" role="progressbar" aria-label={task.name} aria-valuemin={0} aria-valuemax={task.target} aria-valuenow={task.completed}><div className="fill good" style={{ width: `${task.percent}%` }} /></div></div>
+              ))}
             </div>
             {stage === 'end' && (
               <div className="fade-in">
