@@ -1,6 +1,6 @@
 import { REWARD_POOLS, STARTER_DECK } from '../data/cards';
 import { MAPS } from '../data/maps';
-import { endTurn, playCard, startBattle } from '../engine/battle';
+import { endTurn, MAX_HAND_SIZE, playCard, startBattle } from '../engine/battle';
 import { bossDone, canRetreat, complete, enter, newMapRun, node, retreat, type MapRun } from '../engine/map';
 import { nextRandom, shuffle } from '../engine/rng';
 import type { BattleState, CardInst } from '../engine/types';
@@ -61,6 +61,11 @@ export function loadSave(): Save | null {
 export function validate(o: any): Save | null {
   if (!o || o.version !== 1 || typeof o.step !== 'number' || !Array.isArray(o.deck)) return null;
   if (o.step < 0 || o.step >= FLOW.length) return null;
+  // 旧版战斗可能保存了 8—10 张手牌，按原顺序放回牌堆顶部，不丢牌、不重洗。
+  if (Array.isArray(o.battle?.hand) && Array.isArray(o.battle?.drawPile) && o.battle.hand.length > MAX_HAND_SIZE) {
+    const battle = o.battle as BattleState;
+    return { ...o, battle: { ...battle, hand: battle.hand.slice(0, MAX_HAND_SIZE), drawPile: [...battle.hand.slice(MAX_HAND_SIZE), ...battle.drawPile] } } as Save;
+  }
   return o as Save;
 }
 export function clearSave() { try { localStorage.removeItem(KEY); } catch { /* */ } }

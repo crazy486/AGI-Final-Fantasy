@@ -39,7 +39,7 @@ describe('battle rules', () => {
     s = endTurn(s); // arith 攻击 5
     expect(s.player.hp).toBe(60);
     expect(s.player.block).toBe(0);
-    expect(s.hand).toHaveLength(9); // 保留未打出的 4 张，再抽 5 张
+    expect(s.hand).toHaveLength(7); // 保留未打出的 4 张，只补 3 张
   });
 
   it('condition armor halves damage unless verified', () => {
@@ -93,26 +93,55 @@ describe('battle rules', () => {
     expect(endTurn(s)).toBe(s);
   });
 
-  it('keeps unplayed cards across turns and draws five new cards', () => {
+  it('keeps unplayed cards and only draws the missing cards up to seven', () => {
     let s = startBattle({ deck: deck(Array(16).fill('verify')), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
     s = playCard(s, s.hand[0].uid);
     const kept = s.hand.map((c) => c.uid);
     const next = endTurn(s);
     expect(next.hand.slice(0, 4).map((c) => c.uid)).toEqual(kept);
-    expect(next.hand).toHaveLength(9);
-    expect(next.drawPile).toHaveLength(6);
+    expect(next.hand).toHaveLength(7);
+    expect(next.drawPile).toHaveLength(8);
     expect(next.discard).toHaveLength(1);
-    expect(s.hand).toHaveLength(4); // 不修改输入
+    expect(next.events).toContainEqual({ type: 'draw', count: 3 });
+    expect(s.hand).toHaveLength(4);
   });
 
-  it('stops drawing at ten without losing the extra cards in the pile', () => {
-    let s = startBattle({ deck: deck(Array(20).fill('verify')), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
-    s = endTurn(s);
-    expect(s.hand).toHaveLength(10);
-    expect(s.drawPile).toHaveLength(10);
-    s = endTurn(s);
-    expect(s.hand).toHaveLength(10);
-    expect(s.drawPile).toHaveLength(10);
+  it.each([0, 3, 6, 7])('refills a hand of %i cards without growing beyond seven', (keptCount) => {
+    const s = startBattle({ deck: deck(Array(20).fill('verify')), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
+    const pile = [...s.hand, ...s.drawPile];
+    s.hand = pile.slice(0, keptCount);
+    s.drawPile = pile.slice(keptCount);
+    const next = endTurn(s);
+    expect(next.hand).toHaveLength(7);
+    expect(next.hand.slice(0, keptCount)).toEqual(s.hand);
+    expect(next.drawPile).toHaveLength(13);
+    expect(next.discard).toHaveLength(0);
+    if (keptCount === 7) expect(next.events.some((e) => e.type === 'draw')).toBe(false);
+  });
+
+  it('caps bonus draws at seven and leaves the undrawn card on top of the pile', () => {
+    let s = startBattle({ deck: deck(Array(20).fill('retrieve')), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
+    s.hand.push(...s.drawPile.splice(0, 2));
+    const remaining = s.drawPile.map((c) => c.uid);
+    const used = s.hand[0].uid;
+    const next = playCard(s, used);
+    expect(next.hand).toHaveLength(7);
+    expect(next.drawPile.map((c) => c.uid)).toEqual(remaining.slice(1));
+    expect(next.discard.map((c) => c.uid)).toEqual([used]);
+    expect(next.events).toContainEqual({ type: 'draw', count: 1 });
+    expect(next.hand.length + next.drawPile.length + next.discard.length).toBe(20);
+  });
+
+  it('reshuffles the discard pile to refill a short hand, then stops at seven', () => {
+    let s = startBattle({ deck: deck(Array(10).fill('verify')), enemyIds: ['arith'], hp: 60, maxHp: 60, seed: 1 });
+    const pile = [...s.hand, ...s.drawPile];
+    s.hand = pile.slice(0, 3);
+    s.drawPile = [];
+    s.discard = pile.slice(3);
+    const next = endTurn(s);
+    expect(next.hand).toHaveLength(7);
+    expect(next.drawPile).toHaveLength(3);
+    expect(next.discard).toHaveLength(0);
   });
 
   it('removes noise at turn end while retaining ordinary cards', () => {

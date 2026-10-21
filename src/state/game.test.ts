@@ -1,6 +1,6 @@
 import { beforeEach, describe, expect, it } from 'vitest';
 import { FLOW } from './flow';
-import { advance, battleResolve, mapEnter, mapRetreat, newGame, restChoose, takeReward, upgradeCard, type Save } from './game';
+import { advance, battleResolve, mapEnter, mapRetreat, newGame, importSave, exportSave, validate, restChoose, takeReward, upgradeCard, type Save } from './game';
 
 const stepOf = (k: string, id?: string) => FLOW.findIndex((s: any) => s.k === k && (!id || s.id === id));
 function atMap(id: string): Save {
@@ -98,5 +98,24 @@ describe('chapter jump', () => {
     expect(s.deck.some((c) => c.up)).toBe(true);
     const s1 = jumpTo(newGame(1), CHAPTERS[1].step);
     expect(s1.deck.length).toBe(10);
+  });
+});
+
+
+describe('older battle saves', () => {
+  it('returns excess saved hand cards to the draw pile without losing cards or changing the input', () => {
+    let s = atMap('act1');
+    s = mapEnter(s, 'a');
+    const battle = s.battle!;
+    const all = [...battle.hand, ...battle.drawPile];
+    battle.hand = all.slice(0, 9);
+    battle.drawPile = all.slice(9);
+    const loaded = validate(s)!;
+    expect(loaded.battle!.hand.map((c) => c.uid)).toEqual(all.slice(0, 7).map((c) => c.uid));
+    expect(loaded.battle!.drawPile.map((c) => c.uid)).toEqual(all.slice(7).map((c) => c.uid));
+    expect(loaded.battle!.hand.length + loaded.battle!.drawPile.length).toBe(10);
+    expect(battle.hand).toHaveLength(9);
+    expect(importSave(exportSave(s))).toEqual(loaded);
+    expect(importSave(exportSave(loaded))).toEqual(loaded);
   });
 });

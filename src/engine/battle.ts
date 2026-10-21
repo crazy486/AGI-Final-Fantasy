@@ -4,6 +4,7 @@ import { shuffle } from './rng';
 import type { BattleEvent, BattleState, CardInst, EnemyState, Intent } from './types';
 
 // 纯函数战斗规则：所有操作返回新状态，不修改入参。
+export const MAX_HAND_SIZE = 7;
 
 export function cardCost(c: CardInst): number {
   const d = CARDS[c.id];
@@ -55,7 +56,7 @@ function clone(s: BattleState): BattleState {
 function drawCards(s: BattleState, n: number) {
   let drawn = 0;
   for (let i = 0; i < n; i++) {
-    if (s.hand.length >= 10) break;
+    if (s.hand.length >= MAX_HAND_SIZE) break;
     if (s.drawPile.length === 0) {
       if (s.discard.length === 0) break;
       const [p, r] = shuffle(s.discard, s.rng);
@@ -73,7 +74,7 @@ function beginPlayerTurn(s0: BattleState): BattleState {
   s.player.block = 0; // 护盾在玩家下回合开始时清空
   s.player.energy = s.player.maxEnergy; // 恢复算力，不积攒
   s.player.verified = false;
-  drawCards(s, 5);
+  drawCards(s, s.turn === 1 ? 5 : Math.max(0, MAX_HAND_SIZE - s.hand.length));
   return s;
 }
 

@@ -190,27 +190,26 @@ h1, h2, h3 { margin: 0; font-weight: 600; }
 .card-modal { width: 1600px; max-height: 920px; display: flex; flex-direction: column; overflow: hidden; }
 .card-modal .card-grid { min-height: 0; overflow-y: auto; flex: 1; flex-shrink: 1; padding: 24px 18px; margin: 4px 0 20px; align-content: flex-start; }
 .card-grid .card { flex-shrink: 0; }
-.card.small { width: 200px; height: 300px; }
-.card { height: 330px; }
-.card .cart { height: 70px; flex-shrink: 0; }
-.card .cdesc { font-size: 18px; line-height: 1.4; }
-.card.small .cdesc { font-size: 18px; }
-.card.small .cname { font-size: 23px; }
-.card .cflavor { font-size: 13px; }
-.hand { left: 24px; right: 24px; }
-.hand.crowded { gap: 10px; }
-.hand.crowded .card { width: 175px; min-width: 0; }
-.hand.crowded .cname { font-size: 22px; }
-.hand.crowded .cflavor { display: none; }
-.player-bar { bottom: 370px; }
+/* 沿用原版 210×290 卡面；7 张仍按相同尺寸排列，不再只压窄卡片。 */
+.hand .card { flex-shrink: 0; }
+.research-card { padding: 12px; }
+.research-card .cname { font-size: 24px; line-height: 28px; margin-top: 4px; flex-shrink: 0; }
+.research-card .ctype { font-size: 15px; line-height: 20px; margin: 3px 0 6px; flex-shrink: 0; }
+.research-card .cart { height: 60px; margin: 0 0 6px; flex-shrink: 0; }
+.research-card .cdesc { font-size: 17px; line-height: 1.35; min-height: 0; }
+.research-card .cflavor { font-size: 12px; line-height: 16px; margin-top: 4px; flex-shrink: 0; display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 2; overflow: hidden; }
+.card-modal .card.small { width: 200px; height: 280px; }
+.card-modal .card.small .cname { font-size: 23px; }
+.card-modal .card.small .cart { height: 60px; }
 .tutorial { top: 455px; }
 .mechanic-help { color: var(--accent); cursor: pointer; font-family: inherit; }
 .help-copy { white-space: pre-line; line-height: 1.7; margin: 18px 0 26px; }
 .upgrade-compare { display: flex; align-items: center; justify-content: center; gap: 70px; padding: 26px 0 40px; }
+.upgrade-compare .research-card { width: 240px; height: 336px; }
 .upgrade-compare h3 { text-align: center; margin-bottom: 20px; }
 .upgrade-arrow { font-size: 54px; color: var(--dim); }
 .upgrade-change { color: #a8ffd0 !important; background: #123e2d !important; border-radius: 4px; padding: 0 3px; font-weight: 800; outline: 1px solid #67db9c; }
-.counter-ready { display: block; color: var(--green); font-size: 16px; margin-top: 7px; }
+.counter-ready { position: absolute; bottom: calc(100% + 10px); left: 50%; transform: translateX(-50%); width: max-content; max-width: 300px; padding: 5px 10px; border: 1px solid #3e8d6b; border-radius: 8px; background: #0e241c; color: var(--green); font-size: 16px; line-height: 1.35; pointer-events: none; }
 .auto-cell small { float: right; font-size: 16px; }
 .story-note { font-size: 22px; color: var(--dim); line-height: 1.5; margin-top: 14px; }
 .dialog { padding-bottom: 48px; }

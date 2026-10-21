@@ -3,7 +3,7 @@ import { sfx } from '../audio';
 import { CARDS } from '../data/cards';
 import { ENEMIES } from '../data/enemies';
 import { art } from '../assets';
-import { canPlay, cardCost, currentIntent, playCard } from '../engine/battle';
+import { canPlay, cardCost, currentIntent, MAX_HAND_SIZE, playCard } from '../engine/battle';
 import type { BattleState, CardInst, Intent } from '../engine/types';
 import { TIPS } from '../data/tips';
 
@@ -27,14 +27,15 @@ export function CardView({ c, onClick, selected, disabled, small, upgradedFrom, 
   const forecast = counterReady && battle && canPlay(battle, c.uid)
     ? playCard(battle, c.uid, target![0].uid).events.find((e) => e.type === 'damageEnemy') : undefined;
   return (
-    <button className={`card t-${d.type} ${selected ? 'sel' : ''} ${small ? 'small' : ''}`} onClick={onClick} disabled={disabled} title={d.flavor}
+    <button className={`card research-card t-${d.type} ${selected ? 'sel' : ''} ${small ? 'small' : ''}`} onClick={onClick} disabled={disabled} title={d.flavor}
       aria-label={`${d.name}${c.up ? '+' : ''}，费用${cardCost(c)}，${d.desc(c.up)}`}>
       <span className={`cost ${costChanged ? 'upgrade-change' : ''}`}>{cardCost(c)}</span>
       <span className="cname">{d.name}{c.up ? '+' : ''}</span>
       <span className="ctype">{d.type}</span>
       {art(c.id) && <img className="cart" src={art(c.id)!} alt="" draggable={false} />}
-      <span className="cdesc">{description}{forecast?.type === 'damageEnemy' && <strong className="counter-ready">本次推进 {forecast.amount + forecast.blocked}{forecast.blocked ? ` · 护盾抵消 ${forecast.blocked}` : ''}</strong>}</span>
+      <span className="cdesc">{description}</span>
       {!small && d.flavor && <span className="cflavor">{d.flavor}</span>}
+      {forecast?.type === 'damageEnemy' && <strong className="counter-ready">本次推进 {forecast.amount + forecast.blocked}{forecast.blocked ? ` · 护盾抵消 ${forecast.blocked}` : ''}</strong>}
     </button>
   );
 }
@@ -133,8 +134,8 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
 
       {tutorial && b.turn <= 2 && b.outcome === 'ongoing' && (
         <div className="tutorial panel">
-          每回合有 <b>3 点算力</b>，抽 5 张牌。点击卡牌打出；多个敌人时先点牌、再点目标，右键取消。<br />
-          <b>没出的牌留到下回合</b>，手里最多 10 张。敌人头上是下一步行动。《基础验证》提供护盾抵消伤害。结束回合快捷键 E。
+          每回合有 <b>3 点算力</b>，首回合抽 5 张牌，之后补到 7 张。点击卡牌打出；多个敌人时先点牌、再点目标，右键取消。<br />
+          <b>没出的牌留到下回合</b>，所有抽牌最多补至 7 张，多余的牌留在牌堆。敌人头上是下一步行动。《基础验证》提供护盾抵消伤害。结束回合快捷键 E。
         </div>
       )}
 
@@ -146,13 +147,14 @@ export function BattleView({ b, onPlay, onEnd, onResolve, onRetreat, canRetreat,
             <span className="pill">🛡 稳定 {p.block}</span>
             <button className="pill mechanic-help" onClick={() => setHelp('momentum')}>推理链 {p.momentum} ⓘ</button>
             <span className={`pill ${p.verified ? 'green-text' : 'dim'}`}>{p.verified ? '✓ 已验证' : '未验证'}</span>
+            <span className="pill dim">手牌 {b.hand.length}/{MAX_HAND_SIZE}</span>
             <span className="pill dim">抽牌堆 {b.drawPile.length} · 弃牌堆 {b.discard.length}</span>
           </div>
         </div>
         <button className="btn primary" disabled={b.outcome !== 'ongoing'} onClick={() => { setSel(null); onEnd(); }}>结束回合</button>
       </div>
 
-      <div className={`hand ${b.hand.length > 7 ? 'crowded' : ''}`}>
+      <div className="hand">
         {b.hand.map((c) => <CardView key={c.uid} c={c} battle={b} selected={sel === c.uid} disabled={!canPlay(b, c.uid)} onClick={() => clickCard(c)} />)}
       </div>
 
