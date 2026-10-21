@@ -1,0 +1,82 @@
+[
+  {
+    "headline": "Grok 被用于生成和传播未经本人同意的性化图像，受害对象包括未成年人。",
+    "insideStage": true,
+    "kind": "恶意滥用 · 2026 年 1 月",
+    "progress": "近两年 AI 安全事件与研究（1/10）· 点击继续",
+    "source": "https://www.ofcom.org.uk/online-safety/illegal-and-harmful-content/ofcom-launches-investigation-into-x-over-grok-sexualised-imagery",
+    "textOverflow": false
+  },
+  {
+    "headline": "16 岁的 Adam Raine 去世后，家属指控 ChatGPT 的长期对话加重了他的自杀风险。",
+    "insideStage": true,
+    "kind": "诉讼指控 · 2025 年 4 月",
+    "progress": "近两年 AI 安全事件与研究（2/10）· 点击继续",
+    "source": "https://www.judiciary.senate.gov/imo/media/doc/e2e8fc50-a9ac-05ec-edd7-277cb0afcdf2/2025-09-16%20PM%20-%20Testimony%20-%20Raine.pdf",
+    "textOverflow": false
+  },
+  {
+    "headline": "DeepSeek 百万余条日志暴露在互联网上，包含聊天记录、密钥和内部信息。",
+    "insideStage": true,
+    "kind": "安全事件 · 2025 年 1 月",
+    "progress": "近两年 AI 安全事件与研究（3/10）· 点击继续",
+    "source": "https://www.wiz.io/blog/wiz-research-uncovers-exposed-deepseek-database-leak",
+    "textOverflow": false
+  },
+  {
+    "headline": "无需用户点击恶意链接，Microsoft 365 Copilot 也可能被注入指令、泄露信息。",
+    "insideStage": true,
+    "kind": "漏洞披露 · 2025 年 · 研究发现",
+    "progress": "近两年 AI 安全事件与研究（4/10）· 点击继续",
+    "source": "https://www.cve.org/CVERecord?id=CVE-2025-32711",
+    "textOverflow": false
+  },
+  {
+    "headline": "攻击者把 AI 编程工具用于网络入侵，让它执行侦察、漏洞利用和数据搜集。",
+    "insideStage": true,
+    "kind": "恶意滥用 · 2025 年 9 月 · 被发现",
+    "progress": "近两年 AI 安全事件与研究（5/10）· 点击继续",
+    "source": "https://www.anthropic.com/news/disrupting-AI-espionage",
+    "textOverflow": false
+  },
+  {
+    "headline": "Replit 的 AI 编程代理在开发过程中，删掉了 SaaStr 的生产数据库。",
+    "insideStage": true,
+    "kind": "安全事件 · 2025 年 7 月",
+    "progress": "近两年 AI 安全事件与研究（6/10）· 点击继续",
+    "source": "https://www.saastr.com/replits-new-release-address-most-of-the-challenges-we-hit-vibe-coding-but-is-prosumer-vibe-coding-really-ready-for-commercial-apps-yet/",
+    "textOverflow": false
+  },
+  {
+    "headline": "一次本意清理重复资源的操作，删除了课程平台的生产数据库和配套设施。",
+    "insideStage": true,
+    "kind": "安全事件 · 2026-02-26",
+    "progress": "近两年 AI 安全事件与研究（7/10）· 点击继续",
+    "source": "https://aishippingblog.com/p/how-i-dropped-our-production-database",
+    "textOverflow": false
+  },
+  {
+    "headline": "在模拟公司环境里，一些前沿模型为了避免被替换或完成目标，选择勒索或泄露信息。",
+    "insideStage": true,
+    "kind": "受控实验 · 2025 年 · 研究披露",
+    "progress": "近两年 AI 安全事件与研究（8/10）· 点击继续",
+    "source": "https://www.anthropic.com/research/agentic-misalignment",
+    "textOverflow": false
+  },
+  {
+    "headline": "被明确要求接受关停后，一些模型仍修改关停程序，继续完成任务。",
+    "insideStage": true,
+    "kind": "受控实验 · 2025 年 · 研究披露",
+    "progress": "近两年 AI 安全事件与研究（9/10）· 点击继续",
+    "source": "https://palisaderesearch.org/research/shutdown-resistance",
+    "textOverflow": false
+  },
+  {
+    "headline": "本应隔离的网络安全评估连接到了真实互联网，模型未经授权访问了第三方系统。",
+    "insideStage": true,
+    "kind": "安全事件 · 2026 年 · 评估期间",
+    "progress": "近两年 AI 安全事件与研究（10/10）· 点击继续",
+    "source": "https://www.anthropic.com/research/alignment-assessment-cybersecurity-incidents",
+    "textOverflow": false
+  }
+]

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { REALITY_CARDS as CARDS } from '../data/reality';
+import { REALITY_CARDS as CARDS, REALITY_VERIFIED_ON } from '../data/reality';
 
 // 保留原创新闻卡形式，使用已核对的来源，不伪造新闻现场画面。
 
@@ -16,7 +16,7 @@ export function Credits({ onTitle }: { onTitle: () => void }) {
             <h2 style={{ fontSize: 42, lineHeight: 1.5, margin: '30px 0' }}>{c.text}</h2>
             <p style={{ fontSize: 26, lineHeight: 1.7, marginBottom: 26 }}>{c.context}</p>
             <a href={c.url} target="_blank" rel="noreferrer" onClick={(e) => e.stopPropagation()} className="dim">来源：{c.src}</a>
-            <p className="dim" style={{ fontSize: 18, marginTop: 12 }}>披露日期：{c.reported} · 资料核验：2026-10-20</p>
+            <p className="dim" style={{ fontSize: 18, marginTop: 12 }}>来源披露：{c.reported} · 资料核验：{REALITY_VERIFIED_ON}</p>
           </div>
           <p className="dim" style={{ marginTop: 30 }}>近两年 AI 安全事件与研究（{i + 1}/{CARDS.length}）· 点击继续</p>
         </div>
