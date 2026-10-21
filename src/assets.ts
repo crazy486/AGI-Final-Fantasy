@@ -3,7 +3,7 @@ import type { BgId, Expr } from './data/story/types';
 
 const bgFiles = import.meta.glob('./assets/bg/*.webp', { eager: true, import: 'default' }) as Record<string, string>;
 const artFiles = import.meta.glob('./assets/art/*.{webp,png}', { eager: true, import: 'default' }) as Record<string, string>;
-const ptFiles = import.meta.glob('./assets/portraits/*.webp', { eager: true, import: 'default' }) as Record<string, string>;
+const ptFiles = import.meta.glob('./assets/portraits/*.{webp,png}', { eager: true, import: 'default' }) as Record<string, string>;
 
 const pick = (files: Record<string, string>, name: string) => {
   const k = Object.keys(files).find((p) => p.replace(/^.*\//, '').replace(/\.(webp|png)$/, '') === name);
@@ -47,7 +47,7 @@ export const IS_CG = (b: BgId) => b.startsWith('cg_');
 export function portraitFor(speaker: string | undefined, expr: Expr, young: boolean, late = false): string | null {
   switch (speaker) {
     case '海默': return pt(`haimer-${young ? 'young-' : ''}${expr}`) ?? pt(young ? 'haimer-young-calm' : 'haimer-calm');
-    case '问源': return pt(late ? 'wenyuan-late' : 'wenyuan');
+    case '问源': return pt('wenyuan-v2') ?? pt(late ? 'wenyuan-late' : 'wenyuan');
     case '方源': return pt(expr === 'tired' || expr === 'surprise' ? 'lin-worried' : 'lin');
     case '周岚': return pt(expr === 'focus' || expr === 'surprise' ? 'zhou-serious' : 'zhou');
     case '宁宁': return pt('ningning');

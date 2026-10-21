@@ -1,0 +1,44 @@
+[
+  {
+    "ms": 278,
+    "auto": true,
+    "black": false,
+    "controls": 0,
+    "text": "窗外，远处的地平线上升起了一道绿色的光。"
+  },
+  {
+    "ms": 5002,
+    "auto": true,
+    "black": false,
+    "controls": 0,
+    "text": "窗外，远处的地平线上升起了一道绿色的光。"
+  },
+  {
+    "ms": 7001,
+    "auto": true,
+    "black": false,
+    "controls": 0,
+    "text": "光铺满了窗户。房间安静地变成了绿色。"
+  },
+  {
+    "ms": 13000,
+    "auto": true,
+    "black": false,
+    "controls": 0,
+    "text": ""
+  },
+  {
+    "ms": 16501,
+    "auto": false,
+    "black": true,
+    "controls": 0,
+    "text": ""
+  },
+  {
+    "ms": 18502,
+    "auto": false,
+    "black": true,
+    "controls": 0,
+    "text": "你醒了。"
+  }
+]

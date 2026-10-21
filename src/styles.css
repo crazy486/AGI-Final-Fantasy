@@ -215,3 +215,12 @@ h1, h2, h3 { margin: 0; font-weight: 600; }
 .dialog { padding-bottom: 48px; }
 .pov-label { position: absolute; left: 24px; top: 22px; z-index: 10; font-size: 20px; }
 .pov-label ~ .tip-chip { top: 76px; }
+
+/* 后期沿用同一问源形态，只让光色更冷，避免角色造型突然改变。 */
+.late-era .portrait.p-ai { filter: saturate(.6) brightness(.92) drop-shadow(0 10px 30px rgba(65,140,210,.35)); }
+.late-era .portrait.p-ai-dim { filter: saturate(.6) brightness(.5) drop-shadow(0 10px 30px rgba(65,140,210,.35)); }
+
+/* 终局按音乐自动推进，缓慢推近画面；演出期间不提供点击推进或跳过。 */
+.finale-cinematic .bg-img { animation: finaleCamera 6s linear both; }
+.finale-cinematic .dialog { cursor: default; pointer-events: none; }
+@keyframes finaleCamera { from { opacity: .65; transform: scale(1); } 12% { opacity: 1; } to { opacity: 1; transform: scale(1.045); } }

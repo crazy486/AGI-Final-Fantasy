@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { cutMusic, music, sfx } from '../audio';
 import { SCENES } from '../data/story';
 import type { BgId, Choice, Expr, Line } from '../data/story/types';
@@ -6,6 +6,7 @@ import { TIPS } from '../data/tips';
 import { getRead, markRead } from '../state/game';
 import { IS_CG, isAI, portraitFor } from '../assets';
 import { Backdrop, Portrait } from './Backdrop';
+import { startFinaleSequence } from '../engine/finale';
 
 type Item = Line | { choice: Choice[] };
 const isChoice = (x: Item): x is { choice: Choice[] } => 'choice' in x;
@@ -38,10 +39,14 @@ export function StoryPlayer({ sceneId, onDone, young, late }: { sceneId: string;
     }
   }
   const cur = items[i];
+  const greenStart = scene.lines.findIndex((line) => !isChoice(line) && line.bg === 'cg_green1');
+  const inFinale = sceneId === 'act7End' && greenStart >= 0 && i >= greenStart;
+  const doneRef = useRef(onDone);
+  doneRef.current = onDone;
   const key = `${sceneId}:${i}`;
 
   const next = () => {
-    if (!cur || isChoice(cur) || (sceneId === 'wake' && i === 0)) return;
+    if (!cur || isChoice(cur) || (sceneId === 'wake' && i === 0) || inFinale) return;
     markRead(key);
     setHistory((h) => [...h, cur]);
     sfx('click');
@@ -58,13 +63,27 @@ export function StoryPlayer({ sceneId, onDone, young, late }: { sceneId: string;
 
   // 终局演出：绿色场域响起 cue；黑屏“你醒了”前切断，留 2 秒真正静音
   useEffect(() => {
-    if (cur && !isChoice(cur) && cur.bg === 'cg_green1' && sceneId === 'act7End') music('cue-green-field');
     if (sceneId === 'wake' && i === 0) {
       cutMusic();
       const timer = setTimeout(() => setI(1), 2000);
       return () => clearTimeout(timer);
     }
   }, [sceneId, i]);
+
+  // 等音频完成解码并实际启动，再完整播放高潮；普通点击和已读快进不能截断。
+  useEffect(() => {
+    if (!inFinale) return;
+    setSkipping(false);
+    const stop = startFinaleSequence(music('cue-green-field'), (phase) => {
+      if (phase > 0) {
+        const previous = scene.lines[greenStart + phase - 1];
+        markRead(`${sceneId}:${greenStart + phase - 1}`);
+        if (!isChoice(previous)) setHistory((h) => [...h, previous]);
+      }
+      setI(greenStart + phase);
+    }, () => doneRef.current());
+    return stop;
+  }, [inFinale]);
 
   // 已读快进：遇到未读或选项时停止
   useEffect(() => {
@@ -88,7 +107,7 @@ export function StoryPlayer({ sceneId, onDone, young, late }: { sceneId: string;
   const tipId = line?.tip;
 
   return (
-    <div key={line?.fx === 'shake' || line?.fx === 'flash' ? key : sceneId} className={`fade-in ${line?.fx === 'shake' ? 'shake' : ''} ${line?.fx === 'flash' ? 'flash' : ''}`} style={{ position: 'absolute', inset: 0 }}>
+    <div key={line?.fx === 'shake' || line?.fx === 'flash' ? key : sceneId} className={`fade-in ${late ? 'late-era' : ''} ${inFinale ? 'finale-cinematic' : ''} ${line?.fx === 'shake' ? 'shake' : ''} ${line?.fx === 'flash' ? 'flash' : ''}`} style={{ position: 'absolute', inset: 0, zIndex: inFinale ? 45 : undefined }}>
       <Backdrop bg={bg} />
       {pov && line?.fx !== 'chapter' && bg !== 'black' && <div className="pov-label pill">当前视角：{pov}</div>}
       {line?.fx === 'green' && !IS_CG(bg) && <div className="green-field" />}
@@ -99,10 +118,10 @@ export function StoryPlayer({ sceneId, onDone, young, late }: { sceneId: string;
         const src = portraitFor(who, expr, young, late);
         return src ? <Portrait src={src} side={line?.s ? (isAI(who) ? 'ai' : 'center') : (isAI(who) ? 'ai-dim' : 'dim')} /> : null;
       })()}
-      <div className="topbar">
+      {!inFinale && <div className="topbar">
         <button className="btn small" onClick={() => setSkipping((s) => !s)} aria-pressed={skipping}>{skipping ? '停止快进' : '已读快进'}</button>
         <button className="btn small" onClick={() => setShowLog(true)}>对话记录</button>
-      </div>
+      </div>}
       {tipId && TIPS[tipId] && <button className="btn small tip-chip" onClick={() => setTip(tipId)}>💡 小贴士：{TIPS[tipId].title}</button>}
 
       {line?.fx === 'chapter' ? (
@@ -114,14 +133,14 @@ export function StoryPlayer({ sceneId, onDone, young, late }: { sceneId: string;
       ) : null}
 
       {line && line.fx !== 'chapter' && line.fx !== 'terminal' && line.t && (
-        <div key={key} className="dialog panel fade-in" onClick={next} role="button" tabIndex={0} aria-live="polite">
+        <div key={key} className="dialog panel fade-in" onClick={inFinale ? undefined : next} role={inFinale ? undefined : 'button'} tabIndex={inFinale ? undefined : 0} aria-live="polite">
           {line.s && <div className="who">{line.s}</div>}
           <div className={`txt ${line.s ? '' : 'narr'}`}>{line.t || '……'}</div>
           {line.note && <div className="story-note">{line.note}</div>}
-          <div className="hint">{read.has(key) ? '已读 · ' : ''}点击 / 空格 继续</div>
+          <div className="hint">{inFinale ? '演出中' : <>{read.has(key) ? '已读 · ' : ''}点击 / 空格 继续</>}</div>
         </div>
       )}
-      {line && !line.t && line.fx !== 'chapter' && line.fx !== 'terminal' && <div className="center" onClick={next} style={{ cursor: 'pointer' }} role="button" tabIndex={0} aria-label="继续" />}
+      {line && !line.t && line.fx !== 'chapter' && line.fx !== 'terminal' && !inFinale && <div className="center" onClick={next} style={{ cursor: 'pointer' }} role="button" tabIndex={0} aria-label="继续" />}
 
       {isChoice(cur) && (
         <div className="choices">{cur.choice.map((c, k) => <button key={k} className="btn" onClick={() => pick(c)}>{c.text}</button>)}</div>

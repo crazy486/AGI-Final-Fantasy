@@ -80,11 +80,11 @@ let currentTrack: string | null = null;
 let current: { src: AudioBufferSourceNode; gain: GainNode } | null = null;
 
 /** 切换配乐：旧曲淡出、新曲淡入；cue 类不循环。delayMs 用于终局黑屏前的真正静音。 */
-export function music(name: string | null, delayMs = 0) {
-  if (name === currentTrack) return;
+export async function music(name: string | null, delayMs = 0): Promise<number | null> {
+  if (name === currentTrack) return current?.src.buffer?.duration ?? null;
   currentTrack = name;
   const c = ac();
-  if (!c || !musicGain) return;
+  if (!c || !musicGain) return null;
   if (current) {
     const old = current; current = null;
     const t = c.currentTime;
@@ -93,17 +93,17 @@ export function music(name: string | null, delayMs = 0) {
     old.gain.gain.linearRampToValueAtTime(0, t + 0.8);
     old.src.stop(t + 0.85);
   }
-  if (!name) return;
-  load(name).then((buf) => {
-    if (!buf || currentTrack !== name || !ctx || !musicGain) return;
-    const src = ctx.createBufferSource(); src.buffer = buf; src.loop = LOOPING.has(name);
-    const g = ctx.createGain(); g.gain.value = 0;
-    src.connect(g); g.connect(musicGain);
-    const t = ctx.currentTime + delayMs / 1000;
-    g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t + 1);
-    src.start(t);
-    current = { src, gain: g };
-  });
+  if (!name) return null;
+  const buf = await load(name);
+  if (!buf || currentTrack !== name || !ctx || !musicGain) return null;
+  const src = ctx.createBufferSource(); src.buffer = buf; src.loop = LOOPING.has(name);
+  const g = ctx.createGain(); g.gain.value = 0;
+  src.connect(g); g.connect(musicGain);
+  const t = ctx.currentTime + delayMs / 1000;
+  g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(1, t + 1);
+  src.start(t);
+  current = { src, gain: g };
+  return buf.duration;
 }
 
 /** 立即切断（绿色场域高潮后的突然静音） */
