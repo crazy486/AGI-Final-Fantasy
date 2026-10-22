@@ -1,0 +1,190 @@
+{
+  "before": [
+    {
+      "ms": 5501,
+      "animation": "finaleCamera",
+      "opacity": "1",
+      "text": "窗外，远处的地平线上升起了一道绿色的光。",
+      "transform": "matrix(1.04138, 0, 0, 1.04138, 0, 0)"
+    },
+    {
+      "ms": 6251,
+      "animation": "finaleCamera",
+      "opacity": "0.747261",
+      "text": "光铺满了窗户。房间安静地变成了绿色。",
+      "transform": "matrix(1.0015, 0, 0, 1.0015, 0, 0)"
+    },
+    {
+      "ms": 7502,
+      "animation": "finaleCamera",
+      "opacity": "1",
+      "text": "光铺满了窗户。房间安静地变成了绿色。",
+      "transform": "matrix(1.01087, 0, 0, 1.01087, 0, 0)"
+    }
+  ],
+  "after": [
+    {
+      "ms": 276,
+      "black": false,
+      "buttons": 0,
+      "frames": [
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "0"
+        },
+        {
+          "animation": "none",
+          "opacity": "0"
+        }
+      ],
+      "text": "窗外，远处的地平线上升起了一道绿色的光。",
+      "transform": "matrix(1.00075, 0, 0, 1.00075, 0, 0)"
+    },
+    {
+      "ms": 5501,
+      "black": false,
+      "buttons": 0,
+      "frames": [
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "0"
+        },
+        {
+          "animation": "none",
+          "opacity": "0"
+        }
+      ],
+      "text": "窗外，远处的地平线上升起了一道绿色的光。",
+      "transform": "matrix(1.01547, 0, 0, 1.01547, 0, 0)"
+    },
+    {
+      "ms": 6251,
+      "black": false,
+      "buttons": 0,
+      "frames": [
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "0.0655429"
+        },
+        {
+          "animation": "none",
+          "opacity": "0"
+        }
+      ],
+      "text": "光铺满了窗户。房间安静地变成了绿色。",
+      "transform": "matrix(1.01758, 0, 0, 1.01758, 0, 0)"
+    },
+    {
+      "ms": 7501,
+      "black": false,
+      "buttons": 0,
+      "frames": [
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "0"
+        }
+      ],
+      "text": "光铺满了窗户。房间安静地变成了绿色。",
+      "transform": "matrix(1.02109, 0, 0, 1.02109, 0, 0)"
+    },
+    {
+      "ms": 11752,
+      "black": false,
+      "buttons": 0,
+      "frames": [
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "0"
+        }
+      ],
+      "text": "光铺满了窗户。房间安静地变成了绿色。",
+      "transform": "matrix(1.03305, 0, 0, 1.03305, 0, 0)"
+    },
+    {
+      "ms": 12251,
+      "black": false,
+      "buttons": 0,
+      "frames": [
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "0.0661995"
+        }
+      ],
+      "text": "",
+      "transform": "matrix(1.03445, 0, 0, 1.03445, 0, 0)"
+    },
+    {
+      "ms": 13500,
+      "black": false,
+      "buttons": 0,
+      "frames": [
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "1"
+        },
+        {
+          "animation": "none",
+          "opacity": "1"
+        }
+      ],
+      "text": "",
+      "transform": "matrix(1.03797, 0, 0, 1.03797, 0, 0)"
+    },
+    {
+      "ms": 16501,
+      "black": true,
+      "buttons": 0,
+      "frames": [],
+      "text": "",
+      "transform": null
+    },
+    {
+      "ms": 18501,
+      "black": true,
+      "buttons": 0,
+      "frames": [],
+      "text": "你醒了。",
+      "transform": null
+    }
+  ]
+}

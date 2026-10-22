@@ -5,7 +5,7 @@ import type { BgId, Choice, Expr, Line } from '../data/story/types';
 import { TIPS } from '../data/tips';
 import { getRead, markRead } from '../state/game';
 import { IS_CG, isAI, portraitFor } from '../assets';
-import { Backdrop, Portrait } from './Backdrop';
+import { Backdrop, FinaleBackdrop, Portrait } from './Backdrop';
 import { startFinaleSequence } from '../engine/finale';
 
 type Item = Line | { choice: Choice[] };
@@ -108,7 +108,7 @@ export function StoryPlayer({ sceneId, onDone, young, late }: { sceneId: string;
 
   return (
     <div key={line?.fx === 'shake' || line?.fx === 'flash' ? key : sceneId} className={`fade-in ${late ? 'late-era' : ''} ${inFinale ? 'finale-cinematic' : ''} ${line?.fx === 'shake' ? 'shake' : ''} ${line?.fx === 'flash' ? 'flash' : ''}`} style={{ position: 'absolute', inset: 0, zIndex: inFinale ? 45 : undefined }}>
-      <Backdrop bg={bg} />
+      {inFinale ? <FinaleBackdrop phase={i - greenStart} /> : <Backdrop bg={bg} />}
       {pov && line?.fx !== 'chapter' && bg !== 'black' && <div className="pov-label pill">当前视角：{pov}</div>}
       {line?.fx === 'green' && !IS_CG(bg) && <div className="green-field" />}
       {(() => {

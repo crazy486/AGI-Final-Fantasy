@@ -24,8 +24,9 @@ export function Credits({ onTitle }: { onTitle: () => void }) {
         <div className="center fade-in" style={{ textAlign: 'center', gap: 26 }}>
           <h1 style={{ fontSize: 72 }}>我们还来得及。</h1>
           <p className="dim" style={{ maxWidth: 1300, lineHeight: 1.7 }}>
-            本作 2026 年以后的情节——递归自我改进、150 岁寿命、边界实验——均为虚构推演，不是预测，也不代表灭绝是注定的结局。<br />
-            现实中的 AI 能力进步与安全研究、治理行动正在同时发生。
+            对系统的信任，需要持续验证；交出去的权限，需要能够收回。<br />
+            让安全检验走在部署之前，让关键决定有人负责，让人类始终保有叫停的能力。<br />
+            未来还没有写完。下一页，应当由我们共同选择。
           </p>
           <h2>《AGI：Final Fantasy》</h2>
           <p className="dim">CMIT 参赛作品 · 剧情、人物、国家与机构均为虚构</p>

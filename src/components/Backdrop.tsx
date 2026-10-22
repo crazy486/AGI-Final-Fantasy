@@ -41,6 +41,16 @@ export function Backdrop({ bg }: { bg: BgId }) {
   );
 }
 
+/** 终局三张 CG 始终叠在同一镜头内，只改变上层透明度，避免换图时缩放重置。 */
+export function FinaleBackdrop({ phase }: { phase: number }) {
+  const frames: BgId[] = ['cg_green1', 'cg_green2', 'cg_green3'];
+  return <div className="finale-backdrop" aria-hidden>
+    {frames.map((bg, index) => <div key={bg} className={`finale-frame${phase >= index ? ' is-active' : ''}`}>
+      <Backdrop bg={bg} />
+    </div>)}
+  </div>;
+}
+
 /** 立绘（T05 透明 PNG） */
 export function Portrait({ src, side = 'center' }: { src: string; side?: 'center' | 'left' | 'right' | 'dim' | 'ai' | 'ai-dim' }) {
   return <img className={`portrait p-${side}`} src={src} alt="" draggable={false} />;

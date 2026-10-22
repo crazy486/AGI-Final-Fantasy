@@ -220,7 +220,10 @@ h1, h2, h3 { margin: 0; font-weight: 600; }
 .late-era .portrait.p-ai { filter: saturate(.6) brightness(.92) drop-shadow(0 10px 30px rgba(65,140,210,.35)); }
 .late-era .portrait.p-ai-dim { filter: saturate(.6) brightness(.5) drop-shadow(0 10px 30px rgba(65,140,210,.35)); }
 
-/* 终局按音乐自动推进，缓慢推近画面；演出期间不提供点击推进或跳过。 */
-.finale-cinematic .bg-img { animation: finaleCamera 6s linear both; }
+/* 三张图共用持续 16 秒的镜头，换图只做叠化；演出期间不提供点击推进或跳过。 */
+.finale-backdrop { position: absolute; inset: 0; animation: finaleCamera 16s linear both; }
+.finale-frame { position: absolute; inset: 0; opacity: 0; transition: opacity 1.2s ease-in-out; }
+.finale-frame.is-active { opacity: 1; }
+.finale-cinematic .bg-img { animation: none; }
 .finale-cinematic .dialog { cursor: default; pointer-events: none; }
-@keyframes finaleCamera { from { opacity: .65; transform: scale(1); } 12% { opacity: 1; } to { opacity: 1; transform: scale(1.045); } }
+@keyframes finaleCamera { from { transform: scale(1); } to { transform: scale(1.045); } }
